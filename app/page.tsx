@@ -13,11 +13,6 @@ const RichTextEditor = dynamic(() => import('@/components/Editor').then(mod => m
 })
 
 export default function Home() {
-	const [editorValue, setEditorValue] = useState<string>('')
-
-	const handleOnChange = (value: string) => {
-		setEditorValue(value)
-	}
 	const template = `
 <div style="max-width: 900px; margin: 0 auto; padding: 2.5rem; font-family: system-ui, -apple-system, sans-serif;">
   <h1 style="font-size: 2.75rem; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem; line-height: 1.2;">
@@ -202,8 +197,15 @@ export default function Home() {
 </div>
 `
 
+	const [editorValue, setEditorValue] = useState<string>(template)
+
+	const handleOnChange = (value: string) => {
+		setEditorValue(value)
+	}
+
 	return (
 		<RichTextEditor
+			key={template}
 			placeHolder="Enter Something"
 			name="FCLS Editor"
 			value={editorValue}

@@ -175,6 +175,8 @@ const RichTextEditor = React.memo<RichTextEditorProps>(function Editor({
 }) {
 	const initialConfig = useMemo(
 		() => ({
+			editor:
+				'{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"This is a test","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}',
 			namespace: name,
 			theme,
 			onError: (error: Error) => {
@@ -213,7 +215,6 @@ const RichTextEditor = React.memo<RichTextEditorProps>(function Editor({
 			{/* @ts-expect-error //here, the type of initial config is not provided. */}
 			<LexicalComposer initialConfig={initialConfig}>
 				<ToolbarPlugin />
-				<LoadInitialContentPlugin initialHtml={initialHtml} />
 
 				<RichTextPlugin
 					placeholder={<div className="absolute text-gray-400 left-1/2 -translate-x-1/2 top-2">{placeHolder}</div>}
