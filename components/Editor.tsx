@@ -31,7 +31,8 @@ const ImagesPlugin = dynamic(() => import('@/plugins/ImagePlugin/index.jsx'), {
 	ssr: false,
 })
 
-const TableHoverActionsPlugin = dynamic(() => import('@/plugins/TableHoverActionsPlugin/index.jsx'), {
+// const TableHoverActionsPlugin = dynamic(() => import('@/plugins/TableHoverActionsPlugin/index.jsx'), {
+const TableHoverActionsPlugin = dynamic(() => import('../Plugins/TableHoverActionsPlugin/index.jsx'), {
 	ssr: false,
 })
 
