@@ -27,15 +27,16 @@ import '@/styles/PlaygroundEditorTheme.css'
 import '@/styles/index.css'
 import LoadInitialContentPlugin from '@/Plugins/LoadInitialContent'
 
-const ImagesPlugin = dynamic(() => import('@/plugins/ImagePlugin/index.jsx'), {
+// const ImagesPlugin = dynamic(() => import('@/plugins/ImagePlugin/index.jsx'), {
+const ImagesPlugin = dynamic(() => import('../Plugins/ImagePlugin/index.jsx'), {
 	ssr: false,
 })
 
-const TableHoverActionsPlugin = dynamic(() => import('@/plugins/TableHoverActionsPlugin/index.jsx'), {
+const TableHoverActionsPlugin = dynamic(() => import('../Plugins/TableHoverActionsPlugin/index.jsx'), {
 	ssr: false,
 })
 
-const TableCellResizerPlugin = dynamic(() => import('@/plugins/TableCellResizer/index.jsx'), {
+const TableCellResizerPlugin = dynamic(() => import('../Plugins/TableCellResizer/index.jsx'), {
 	ssr: false,
 })
 
