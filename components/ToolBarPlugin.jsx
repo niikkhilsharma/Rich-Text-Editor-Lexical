@@ -24,7 +24,7 @@ import { $getSelectionStyleValueForProperty, $patchStyleText, $setBlocksType } f
 import { useKeyBindings } from '../hooks/useKeyBindings'
 import ColorPlugin from '../Plugins/ColorPlugin/ColorPlugin'
 // import ListPlugin from '@/plugins/ListPlugin/ListPlugin'
-import ListPlugin from '../Plugins/LayoutPlugin/LayoutPlugin'
+import ListPlugin from '../Plugins/ListPlugin/ListPlugin'
 import ToolbarHeading from './ToolbarHeading'
 import { $isListNode, ListNode } from '@lexical/list'
 import { $isCodeNode, getDefaultCodeLanguage } from '@lexical/code'
