@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { useLexicalEditable } from '@lexical/react/useLexicalEditable'
 import {

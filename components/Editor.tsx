@@ -14,31 +14,27 @@ import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin'
 import { TableNode, TableCellNode, TableRowNode } from '@lexical/table'
 import { TablePlugin as LexicalTablePlugin } from '@lexical/react/LexicalTablePlugin'
 import TableActionMenuPlugin from '@/Plugins/TableActionMenuPlugin'
-import '@/styles/index.css'
-import '@/styles/PlaygroundEditorTheme.css'
 import CustomOnChangePlugin from '@/Plugins/CustomOnChangePlugin'
 import { FieldCodeNode } from '@/Nodes/FieldCodeNode/FieldCodeNode'
-import { BookmarkFill, EyeFill } from 'react-bootstrap-icons'
 import { PageBreakNode } from '@/Nodes/PageBreakNode/PageBreakNode'
 import { CustomBannerNode } from '@/Nodes/BannerNode/BannerNode'
 import { LayoutContainerNode } from '@/Nodes/LayoutContainerNode/LayoutContainerNode'
 import { LayoutItemNode } from '@/Nodes/LayoutItemNode/LayoutItemNode'
-import dynamic from 'next/dynamic.js'
 import { ImageNode } from '@/Nodes/ImageNode'
-import { useRouter, useSearchParams } from 'next/navigation'
+import dynamic from 'next/dynamic.js'
+
+import '@/styles/PlaygroundEditorTheme.css'
+import '@/styles/index.css'
 
 const ImagesPlugin = dynamic(() => import('@/plugins/ImagePlugin/index.jsx'), {
-	loading: () => <>Loading Image Plugin...</>,
 	ssr: false,
 })
 
 const TableHoverActionsPlugin = dynamic(() => import('@/plugins/TableHoverActionsPlugin/index.jsx'), {
-	loading: () => <>Loading TableHoverActions Plugin...</>,
 	ssr: false,
 })
 
 const TableCellResizerPlugin = dynamic(() => import('@/plugins/TableCellResizer/index.jsx'), {
-	loading: () => <>Loading TableHoverActions Plugin...</>,
 	ssr: false,
 })
 
@@ -158,19 +154,26 @@ const theme = {
 	},
 }
 
-const RichTextEditor = React.memo(function Editor({
+// Define the props interface
+interface RichTextEditorProps {
+	name?: string
+	onChange: (value: string) => void
+	placeHolder?: string
+	value: string
+	getTemplate?: () => string
+}
+
+const RichTextEditor = React.memo<RichTextEditorProps>(function Editor({
 	name = 'FCLS Editor',
 	onChange,
 	placeHolder = 'Please Enter Something',
 	value,
 }) {
-	const router = useRouter()
-	const searchParams = useSearchParams()
 	const initialConfig = useMemo(
 		() => ({
 			namespace: name,
 			theme,
-			onError: error => {
+			onError: (error: Error) => {
 				console.error(error)
 			},
 			nodes: [
@@ -193,124 +196,42 @@ const RichTextEditor = React.memo(function Editor({
 		[name]
 	)
 
-	const [floatingAnchorElem, setFloatingAnchorElem] = useState(null)
+	const [floatingAnchorElem, setFloatingAnchorElem] = useState<HTMLDivElement | null>(null)
 
-	const onRef = _floatingAnchorElem => {
+	const onRef = (_floatingAnchorElem: HTMLDivElement | null) => {
 		if (_floatingAnchorElem !== null) {
 			setFloatingAnchorElem(_floatingAnchorElem)
 		}
 	}
 
-	const handleCreateTemplate = async () => {
-		try {
-			const name = searchParams.get('name')
-			const code = searchParams.get('code')
-			const description = searchParams.get('description')
-			const type = searchParams.get('type')
-			console.log(type, 'This is the type')
-
-			const response = await fetch('http://localhost:3001/api/editor', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ name, code, description, type, content: value }),
-			})
-			console.log(response.data)
-			if (response.ok) {
-				alert('Template Saved Successfully')
-			}
-		} catch (error) {
-			console.log(error)
-			alert('Something went wrong! Please try again later.')
-		}
-	}
-
-	const handleEditTemplate = async () => {
-		try {
-			const templateId = searchParams.get('id')
-
-			const response = await fetch(`http://localhost:3001/api/editor?id=${templateId}`, {
-				method: 'PATCH',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					content: value,
-				}),
-			})
-			console.log(response.data)
-			// if (response.ok) {
-			//   alert("Template Updated Successfully");
-			// }
-		} catch (error) {
-			console.log(error)
-			alert('Something went wrong! Please try again later.')
-		}
-	}
-
 	return (
-		<div style={{ height: '100%' }}>
-			<div className="bg-white w-full relative flex h-full overflow-hidden">
-				<LexicalComposer initialConfig={initialConfig}>
-					<ToolbarPlugin />
-					<div className="w-full bg-white overflow-y-scroll">
-						<div className="bg-white sticky top-0 z-50 pt-4">
-							<div className="text-xs bg-[#f9d6d6] rounded-md px-3 flex justify-between items-center h-12 mx-4 mb-4 z-50">
-								<div className="text-nowrap">Template Editor</div>
-
-								<div className="flex justify-between items-center gap-3">
-									<div
-										className="flex justify-center items-center gap-2 hover:cursor-pointer"
-										onClick={() => router.push('/configurations/communication-configuration/template-types')}>
-										<p className="text-nowrap text-blue-700 tracking-tight font-medium">CLOSE PREVIEW</p>
-										<EyeFill className="text-blue-700" />
-									</div>
-									<button
-										className="bg-[#486ac7ff] text-white rounded-md p-1.5 flex gap-2 items-center"
-										onClick={() => {
-											if (searchParams.get('method') === 'create') {
-												handleCreateTemplate()
-											} else {
-												handleEditTemplate()
-											}
-											router.push('/configurations/communication-configuration/template-types')
-										}}>
-										<BookmarkFill className="mr-1" />
-										<span className="text-nowrap">{searchParams.get('method') === 'create' ? 'SAVE' : 'EDIT'} TEMPLATE</span>
-									</button>
-								</div>
+		<div className="bg-white w-full relative flex h-full overflow-hidden">
+			{/* @ts-expect-error //here, the type of initial config is not provided. */}
+			<LexicalComposer initialConfig={initialConfig}>
+				<ToolbarPlugin />
+				<RichTextPlugin
+					placeholder={<div className="absolute text-gray-400 left-1/2 -translate-x-1/2 top-2">{placeHolder}</div>}
+					contentEditable={
+						<div className="h-full w-full resize-y min-h-screen relative flex">
+							<div className="w-full" ref={onRef}>
+								<ContentEditable className="w-full h-full border border-black relative" />
 							</div>
 						</div>
-						<div className="editor-shell">
-							<div className="w-full h-[75vh] overflow-scroll relative px-5 flex justify-center editor-container">
-								<RichTextPlugin
-									placeholder={<div className="absolute text-gray-400 left-1/2 -translate-x-1/2 top-2">{placeHolder}</div>}
-									contentEditable={
-										<div className="editor-scroller">
-											<div className="editor" ref={onRef}>
-												<ContentEditable className="w-full h-full border border-black relative overflow-y-scroll" />
-											</div>
-										</div>
-									}
-									ErrorBoundary={LexicalErrorBoundary}
-								/>
-							</div>
-						</div>
-					</div>
+					}
+					ErrorBoundary={LexicalErrorBoundary}
+				/>
 
-					<CustomOnChangePlugin value={value} onChange={onChange} />
-					<AutoFocusPlugin />
-					<ImagesPlugin />
-					<HistoryPlugin />
-					<ListPlugin />
-					<CheckListPlugin />
-					<LexicalTablePlugin />
-					{floatingAnchorElem && <TableActionMenuPlugin anchorElem={floatingAnchorElem} cellMerge={true} />}
-					<TableHoverActionsPlugin />
-					<TableCellResizerPlugin />
-				</LexicalComposer>
-			</div>
+				<CustomOnChangePlugin value={value} onChange={onChange} />
+				<AutoFocusPlugin />
+				<ImagesPlugin captionsEnabled={false} />
+				<HistoryPlugin />
+				<ListPlugin />
+				<CheckListPlugin />
+				<LexicalTablePlugin />
+				{floatingAnchorElem && <TableActionMenuPlugin anchorElem={floatingAnchorElem} cellMerge={true} />}
+				<TableHoverActionsPlugin />
+				<TableCellResizerPlugin />
+			</LexicalComposer>
 		</div>
 	)
 })

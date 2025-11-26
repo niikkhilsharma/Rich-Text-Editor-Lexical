@@ -1,21 +1,25 @@
-import { useMemo, useRef } from "react";
-import { debounce } from "lodash-es";
+import { useCallback, useRef, useEffect } from 'react'
+import { debounce } from 'lodash-es'
 
 export function useDebounce(fn, ms, maxWait) {
-  const funcRef = useRef(null);
-  funcRef.current = fn;
+	const funcRef = useRef(fn)
+	const debouncedRef = useRef(null)
 
-  return useMemo(
-    () =>
-      debounce(
-        (...args) => {
-          if (funcRef.current) {
-            funcRef.current(...args);
-          }
-        },
-        ms,
-        { maxWait }
-      ),
-    [ms, maxWait]
-  );
+	useEffect(() => {
+		funcRef.current = fn
+	}, [fn])
+
+	useEffect(() => {
+		debouncedRef.current = debounce(
+			(...args) => {
+				funcRef.current?.(...args)
+			},
+			ms,
+			{ maxWait }
+		)
+	}, [ms, maxWait])
+
+	return useCallback((...args) => {
+		debouncedRef.current?.(...args)
+	}, [])
 }
