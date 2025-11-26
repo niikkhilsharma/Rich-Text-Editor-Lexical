@@ -30,7 +30,8 @@
 		".next/dev/types/**/*.ts",
 		"**/*.mts",
 		"components/Editor.tsx",
-		"components/ToolBarPlugin.sx"
+		"components/ToolBarPlugin.sx",
+		"Plugins/LoadInitialContent.jsx"
 	],
 	"exclude": ["node_modules"]
 }

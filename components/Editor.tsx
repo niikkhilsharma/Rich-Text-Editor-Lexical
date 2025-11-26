@@ -25,6 +25,7 @@ import dynamic from 'next/dynamic.js'
 
 import '@/styles/PlaygroundEditorTheme.css'
 import '@/styles/index.css'
+import LoadInitialContentPlugin from '@/Plugins/LoadInitialContent.jsx'
 
 const ImagesPlugin = dynamic(() => import('@/plugins/ImagePlugin/index.jsx'), {
 	ssr: false,
@@ -160,7 +161,7 @@ interface RichTextEditorProps {
 	onChange: (value: string) => void
 	placeHolder?: string
 	value: string
-	getTemplate?: () => string
+	initialHtml?: string
 }
 
 const RichTextEditor = React.memo<RichTextEditorProps>(function Editor({
@@ -168,6 +169,7 @@ const RichTextEditor = React.memo<RichTextEditorProps>(function Editor({
 	onChange,
 	placeHolder = 'Please Enter Something',
 	value,
+	initialHtml,
 }) {
 	const initialConfig = useMemo(
 		() => ({
@@ -205,14 +207,16 @@ const RichTextEditor = React.memo<RichTextEditorProps>(function Editor({
 	}
 
 	return (
-		<div className="bg-white w-full relative flex h-full overflow-hidden">
+		<div className="bg-white w-full relative flex min-h-screen">
 			{/* @ts-expect-error //here, the type of initial config is not provided. */}
 			<LexicalComposer initialConfig={initialConfig}>
 				<ToolbarPlugin />
+				<LoadInitialContentPlugin initialHtml={initialHtml} />
+
 				<RichTextPlugin
 					placeholder={<div className="absolute text-gray-400 left-1/2 -translate-x-1/2 top-2">{placeHolder}</div>}
 					contentEditable={
-						<div className="h-full w-full resize-y min-h-screen relative flex">
+						<div className="h-full min-h-screen w-full resize-y relative flex">
 							<div className="w-full" ref={onRef}>
 								<ContentEditable className="w-full h-full border border-black relative" />
 							</div>

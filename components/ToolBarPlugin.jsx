@@ -160,66 +160,69 @@ export default function ToolbarPlugin() {
 		)
 	}, [editor, updateToolbar]) // Added missing dependencies
 
-	const onAction = useCallback(id => {
-		switch (id) {
-			case RichTextAction.Bold: {
-				editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')
-				break
+	const onAction = useCallback(
+		id => {
+			switch (id) {
+				case RichTextAction.Bold: {
+					editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')
+					break
+				}
+				case RichTextAction.Italics: {
+					editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')
+					break
+				}
+				case RichTextAction.Underline: {
+					editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
+					break
+				}
+				case RichTextAction.Strikethrough: {
+					editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
+					break
+				}
+				case RichTextAction.Superscript: {
+					editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'superscript')
+					break
+				}
+				case RichTextAction.Subscript: {
+					editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'subscript')
+					break
+				}
+				case RichTextAction.Highlight: {
+					editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'highlight')
+					break
+				}
+				case RichTextAction.Code: {
+					editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code')
+					break
+				}
+				case RichTextAction.LeftAlign: {
+					editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
+					break
+				}
+				case RichTextAction.RightAlign: {
+					editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
+					break
+				}
+				case RichTextAction.CenterAlign: {
+					editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
+					break
+				}
+				case RichTextAction.JustifyAlign: {
+					editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')
+					break
+				}
+				case RichTextAction.Undo: {
+					editor.dispatchCommand(UNDO_COMMAND, undefined)
+					break
+				}
+				case RichTextAction.Redo: {
+					editor.dispatchCommand(REDO_COMMAND, undefined)
+					break
+				}
 			}
-			case RichTextAction.Italics: {
-				editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')
-				break
-			}
-			case RichTextAction.Underline: {
-				editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
-				break
-			}
-			case RichTextAction.Strikethrough: {
-				editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
-				break
-			}
-			case RichTextAction.Superscript: {
-				editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'superscript')
-				break
-			}
-			case RichTextAction.Subscript: {
-				editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'subscript')
-				break
-			}
-			case RichTextAction.Highlight: {
-				editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'highlight')
-				break
-			}
-			case RichTextAction.Code: {
-				editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code')
-				break
-			}
-			case RichTextAction.LeftAlign: {
-				editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
-				break
-			}
-			case RichTextAction.RightAlign: {
-				editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
-				break
-			}
-			case RichTextAction.CenterAlign: {
-				editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
-				break
-			}
-			case RichTextAction.JustifyAlign: {
-				editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')
-				break
-			}
-			case RichTextAction.Undo: {
-				editor.dispatchCommand(UNDO_COMMAND, undefined)
-				break
-			}
-			case RichTextAction.Redo: {
-				editor.dispatchCommand(REDO_COMMAND, undefined)
-				break
-			}
-		}
-	}, [])
+		},
+		[editor]
+	)
 
 	useKeyBindings({ onAction })
 
@@ -276,7 +279,7 @@ export default function ToolbarPlugin() {
 	const tabs = ['STYLES', 'PRESETS', 'F-CODES']
 
 	return (
-		<div className={'w-1/5 ' + 'min-w-60 p-2 pb-4'} style={{ backgroundColor: '#DEEFFB' }}>
+		<div className={'w-1/5 sticky top-0 max-h-screen bg-[#DEEFFB] min-w-36 sm:min-w-60 p-2 pb-4'}>
 			<div className="flex justify-between gap-4 py-2 border-b-2 border-gray-400/80 text-xs font-medium mb-2">
 				{tabs.map((tab, index) => (
 					<button
@@ -349,14 +352,14 @@ export default function ToolbarPlugin() {
 									}}>
 									<Table />
 								</button>
-
+								{/* 
 								<button
 									className={cn('rounded-md p-2 border hover:opacity-85 hover:bg-slate-200 h-8 w-8 aspect-square')}
 									onClick={() => {
 										showModal('Insert Image', onClose => <InsertImageDialog activeEditor={activeEditor} onClose={onClose} />)
 									}}>
 									<ImageAlt />
-								</button>
+								</button> */}
 
 								{/* Layout container insert */}
 								<button
