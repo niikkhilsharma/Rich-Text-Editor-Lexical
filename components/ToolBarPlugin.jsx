@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useEffect, useCallback } from 'react'
 import { HEADINGS, LOW_PRIORITY, RICH_TEXT_OPTIONS, RichTextAction } from '../Constants/index'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
