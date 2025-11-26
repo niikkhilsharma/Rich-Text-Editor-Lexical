@@ -13,8 +13,8 @@ import { ListItemNode, ListNode } from '@lexical/list'
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin'
 import { TableNode, TableCellNode, TableRowNode } from '@lexical/table'
 import { TablePlugin as LexicalTablePlugin } from '@lexical/react/LexicalTablePlugin'
-import TableActionMenuPlugin from '@/Plugins/TableActionMenuPlugin'
-import CustomOnChangePlugin from '@/Plugins/CustomOnChangePlugin'
+import TableActionMenuPlugin from '@/Plugins/TableActionMenuPlugin/index.jsx'
+import CustomOnChangePlugin from '@/Plugins/CustomOnChangePlugin/index.jsx'
 import { FieldCodeNode } from '@/Nodes/FieldCodeNode/FieldCodeNode'
 import { PageBreakNode } from '@/Nodes/PageBreakNode/PageBreakNode'
 import { CustomBannerNode } from '@/Nodes/BannerNode/BannerNode'
@@ -25,7 +25,7 @@ import dynamic from 'next/dynamic.js'
 
 import '@/styles/PlaygroundEditorTheme.css'
 import '@/styles/index.css'
-import LoadInitialContentPlugin from '@/Plugins/LoadInitialContent.jsx'
+import LoadInitialContentPlugin from '@/Plugins/LoadInitialContent'
 
 const ImagesPlugin = dynamic(() => import('@/plugins/ImagePlugin/index.jsx'), {
 	ssr: false,
