@@ -1,18 +1,18 @@
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { $generateNodesFromDOM } from '@lexical/html'
 import { $getRoot, $insertNodes } from 'lexical'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 export default function LoadInitialContentPlugin({ initialHtml }) {
 	const [editor] = useLexicalComposerContext()
+	const isFirstRender = useRef(true)
 
 	useEffect(() => {
-		if (!initialHtml) return
+		if (!initialHtml || !isFirstRender.current) return
 
 		editor.update(() => {
-			// Only set initial content if editor is empty
-			const root = $getRoot()
-			if (root.getFirstChild() !== null) return
+			// Clear existing content and set initial content only once
+			$getRoot().clear()
 
 			// Parse HTML string to DOM
 			const parser = new DOMParser()
@@ -24,6 +24,8 @@ export default function LoadInitialContentPlugin({ initialHtml }) {
 			// Insert nodes into the editor
 			$insertNodes(nodes)
 		})
+
+		isFirstRender.current = false
 	}, [editor, initialHtml])
 
 	return null
