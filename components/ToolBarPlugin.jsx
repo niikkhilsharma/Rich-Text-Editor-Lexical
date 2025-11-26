@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect, useCallback } from 'react'
 import { HEADINGS, LOW_PRIORITY, RICH_TEXT_OPTIONS, RichTextAction } from '../Constants/index'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
@@ -20,28 +19,27 @@ import {
 import { $getNearestNodeOfType, mergeRegister } from '@lexical/utils'
 import { $createHeadingNode, $isHeadingNode, HeadingNode } from '@lexical/rich-text'
 import { $getSelectionStyleValueForProperty, $patchStyleText, $setBlocksType } from '@lexical/selection'
-import { useKeyBindings } from '../hooks/useKeyBindings.jsx'
-import ColorPlugin from '@/plugins/ColorPlugin/ColorPlugin.jsx'
-import ListPlugin from '@/plugins/ListPlugin/ListPlugin.jsx'
-import ToolbarHeading from './ToolbarHeading.jsx'
+import { useKeyBindings } from '../hooks/useKeyBindings'
+import ColorPlugin from '@/plugins/ColorPlugin/ColorPlugin'
+import ListPlugin from '@/plugins/ListPlugin/ListPlugin'
+import ToolbarHeading from './ToolbarHeading'
 import { $isListNode, ListNode } from '@lexical/list'
 import { $isCodeNode, getDefaultCodeLanguage } from '@lexical/code'
-import { InsertTableDialog } from '@/plugins/TablePlugin/TablePlugin.jsx'
-import PageBreakPlugin from '@/plugins/PageBreakPlugin/PageBreakPlugin.jsx'
-import FieldCodePlugin from '@/plugins/FieldCodePlugin/FieldCodePlugin.jsx'
-import BannerPlugin from '@/plugins/BannerPlugin.jsx'
-import useModal from '../hooks/useModal.jsx'
+import { InsertTableDialog } from '@/plugins/TablePlugin/TablePlugin'
+import PageBreakPlugin from '@/plugins/PageBreakPlugin/PageBreakPlugin'
+import FieldCodePlugin from '@/plugins/FieldCodePlugin/FieldCodePlugin'
+import BannerPlugin from '@/plugins/BannerPlugin'
+import useModal from '../hooks/useModal'
 import { cn, getHeadingSizeByTagName } from '@/lib/utils'
-import { LayoutPlugin } from '@/plugins/LayoutPlugin/LayoutPlugin.jsx'
-import InsertLayoutDialog from '@/plugins/LayoutPlugin/InsertLayoutDialog.jsx'
-import dynamic from 'next/dynamic'
+import { LayoutPlugin } from '@/plugins/LayoutPlugin/LayoutPlugin'
+import InsertLayoutDialog from '@/plugins/LayoutPlugin/InsertLayoutDialog'
 import BannerFormattingPlugin from '@/plugins/CustomBannerPlugin'
-import { Dash, Image, ImageAlt, LayoutSplit, PlusLg, Table } from 'react-bootstrap-icons'
+import { Dash, LayoutSplit, PlusLg, Table } from 'react-bootstrap-icons'
 
-const InsertImageDialog = dynamic(() => import('../plugins/ImagePlugin/index.jsx'), {
-	loading: () => <>Loading Image Plugin...</>,
-	ssr: false,
-})
+// const InsertImageDialog = dynamic(() => import('../plugins/ImagePlugin/index'), {
+// 	loading: () => <>Loading Image Plugin...</>,
+// 	ssr: false,
+// })
 
 export default function ToolbarPlugin() {
 	const [editor] = useLexicalComposerContext()
@@ -129,6 +127,7 @@ export default function ToolbarPlugin() {
 			}, LOW_PRIORITY),
 			editor.registerCommand(
 				SELECTION_CHANGE_COMMAND,
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 				_payload => {
 					updateToolbar()
 					return false
