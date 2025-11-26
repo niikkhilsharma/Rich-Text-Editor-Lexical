@@ -278,7 +278,7 @@ export default function ToolbarPlugin() {
 		})
 	}
 
-	const tabs = ['STYLES', 'PRESETS', 'F-CODES']
+	const tabs = ['STYLES', 'F-CODES']
 
 	return (
 		<div className={'w-1/5 sticky top-0 max-h-screen bg-[#DEEFFB] min-w-36 sm:min-w-60 p-2 pb-4'}>
