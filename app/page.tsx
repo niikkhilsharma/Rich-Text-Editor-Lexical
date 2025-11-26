@@ -203,14 +203,12 @@ export default function Home() {
 `
 
 	return (
-		<div>
-			<RichTextEditor
-				placeHolder="Enter Something"
-				name="FCLS Editor"
-				value={editorValue}
-				onChange={handleOnChange}
-				initialHtml={template}
-			/>
-		</div>
+		<RichTextEditor
+			placeHolder="Enter Something"
+			name="FCLS Editor"
+			value={editorValue}
+			onChange={handleOnChange}
+			initialHtml={template}
+		/>
 	)
 }
