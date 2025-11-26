@@ -210,7 +210,6 @@ export default function Home() {
 			name="FCLS Editor"
 			value={editorValue}
 			onChange={handleOnChange}
-			initialHtml={template}
 		/>
 	)
 }

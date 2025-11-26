@@ -163,7 +163,6 @@ interface RichTextEditorProps {
 	onChange: (value: string) => void
 	placeHolder?: string
 	value: string
-	initialHtml?: string
 }
 
 const RichTextEditor = React.memo<RichTextEditorProps>(function Editor({
@@ -171,12 +170,9 @@ const RichTextEditor = React.memo<RichTextEditorProps>(function Editor({
 	onChange,
 	placeHolder = 'Please Enter Something',
 	value,
-	initialHtml,
 }) {
 	const initialConfig = useMemo(
 		() => ({
-			editor:
-				'{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"This is a test","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}',
 			namespace: name,
 			theme,
 			onError: (error: Error) => {
