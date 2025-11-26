@@ -25,8 +25,6 @@ import dynamic from 'next/dynamic.js'
 
 import '@/styles/PlaygroundEditorTheme.css'
 import '@/styles/index.css'
-// import LoadInitialContentPlugin from '@/Plugins/LoadInitialContent'
-import LoadInitialContentPlugin from '../Plugins/LoadInitialContent.jsx'
 
 // const ImagesPlugin = dynamic(() => import('@/plugins/ImagePlugin/index.jsx'), {
 const ImagesPlugin = dynamic(() => import('../Plugins/ImagePlugin/index.jsx'), {
